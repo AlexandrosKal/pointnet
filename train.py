@@ -165,6 +165,8 @@ def train():
             if epoch % 10 == 0:
                 save_path = saver.save(sess, os.path.join(LOG_DIR, "model.ckpt"))
                 log_string("Model saved in file: %s" % save_path)
+                os.system('rm -rf ../gdrive/My\\ Drive/datasets/log')
+                os.system('cp -r log/ ../gdrive/My\\ Drive/datasets/')
 
 
 
