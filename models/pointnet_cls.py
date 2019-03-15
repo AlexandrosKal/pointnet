@@ -67,7 +67,7 @@ def get_model(point_cloud, is_training, bn_decay=None):
                                   scope='fc2', bn_decay=bn_decay)
     net = tf_util.dropout(net, keep_prob=0.7, is_training=is_training,
                           scope='dp2')
-    net = tf_util.fully_connected(net, 40, activation_fn=None, scope='fc3')
+    net = tf_util.fully_connected(net, 2, activation_fn=None, scope='fc3')
 
     return net, end_points
 
@@ -84,7 +84,7 @@ def get_loss(pred, label, end_points, reg_weight=0.001):
     K = transform.get_shape()[1].value
     mat_diff = tf.matmul(transform, tf.transpose(transform, perm=[0,2,1]))
     mat_diff -= tf.constant(np.eye(K), dtype=tf.float32)
-    mat_diff_loss = tf.nn.l2_loss(mat_diff) 
+    mat_diff_loss = tf.nn.l2_loss(mat_diff)
     tf.summary.scalar('mat loss', mat_diff_loss)
 
     return classify_loss + mat_diff_loss * reg_weight
